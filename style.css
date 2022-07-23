@@ -40,8 +40,7 @@ body {
 /*Ghost Style*/
 .ghost {
   position: absolute;
-  left: 400px;
-  top: 0;
+  top: 1px;
   transform: translateX(-50%);
   width: 45px;
   height: 50px;
