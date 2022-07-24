@@ -2,7 +2,7 @@ const startButton = document.querySelector(".start");
 /* const ghost = document.querySelector("#ghost-box"); */
 const bgDiv = document.querySelector("#bg");
 /* const ghostPositionValue = getComputedStyle(heroDiv).top; */
-/* const regex = /[^0-9]/g; */
+
 /* const ghostPositionNum = backgroundPositionValue.replace(regex, ""); */
 /* console.log(ghostPositionNum); */
 /* let ghostNumber = parseInt(ghostPositionNum); */
@@ -32,40 +32,34 @@ startButton.addEventListener("click", startGame);
 
 */
 function gameStart() {
-  setInterval(createRandomGhostInstance, 800);
-  setTimeout(clearInterval(setInterval(createRandomGhostInstance, 800)), 10000);
+  const intervalId = setInterval(createRandomGhostInstance, 800);
+  setTimeout(myStopFunction, 5000);
+
+  function myStopFunction() {
+    clearInterval(intervalId);
+  }
 }
 
-/* function intervalGhost() {
-  setInterval(createRandomGhostInstance, 800);
-} */
+/* ghostDomArr.style.cssText = `left: ${randomLeft}px`; */
 
-/* startButton.addEventListener("click", gameStart); */
-
+// 여기에서 귀신 dom 하나를 생성
 function createRandomGhostInstance() {
-  const randomLeft = Math.random() * (780 - 20) + 20;
-  /* cleanDiv가 서로다른 id를 가지도록 일단 new Date()로 변화를 줌 나중에 바꾸자 */
-  const ghostId = new Date();
-  const newDiv = document.createElement("div");
-  const cleanDiv = bgDiv.appendChild(newDiv);
-  const cleanDivPositionValue = getComputedStyle(cleanDiv).y;
-  /*  console.log(cleanDivPositionValue); */
+  const randomLeft = parseInt(Math.random() * (780 - 20) + 20);
   const regex = /[^0-9]/g;
-  const cleanDivPositionNum = cleanDivPositionValue.replace(regex, "");
-  const ghostNum = parseInt(cleanDivPositionNum);
-  /*  console.log(ghostNum); */
-
-  //cleanDiv[i].style.cssText = ""
-  cleanDiv.id = `ghost${ghostId}`;
-  cleanDiv.className = `ghost`;
-  cleanDiv.style.cssText = `left: ${randomLeft}px; y: ${ghostNum}px;`;
-  /* if (cleanDivPositionNum) {
-    cleanDivPositionNum == cleanDivPositionNum + 30;
-  } else if (cleanDivPositionNum == 545) {
-    cleanDiv.classList.add(".death");
-  } */
-  /* console.log(cleanDivPositionNum); */
+  const div = document.createElement("div");
+  const createDiv = `<div id=${new Date().getTime()} class="ghost" style="left: ${randomLeft}px; top:1px;"></div>`;
+  // 귀신은 생성 될 때 setIntervel 함수를 가지고 태어나야함. 왜냐? top의 값을 계속 내려줄거기 때문에
+  div.innerHTML = createDiv.trim();
+  bgDiv.appendChild(div.firstChild);
+  const divs = document.getElementsByClassName("ghost");
+  let ghostDomArr = [];
+  for (let i = 0; i < divs.length; i++) {
+    /* divs[i].style.styleText = `left: ${randomLeft}px; top: 100px;`; */
+    ghostDomArr.push(divs[i]);
+    let topValue = ghostDomArr[i].style.top;
+    let topValueRegex = topValue.replace(regex, "");
+    let topValueNum = parseInt(topValueRegex);
+  }
 }
 
-function ghostDown() {}
 startButton.addEventListener("click", gameStart);
